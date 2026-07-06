@@ -485,7 +485,7 @@ const SHEET = {
   records:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=888699591&single=true&output=csv",
   cases:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=636813915&single=true&output=csv",
   links:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=2012378176&single=true&output=csv",
-  copy:     ""   // 문구 탭 — 시트에 탭 생성·게시 후 주소 입력 (비면 내장 문구 사용)
+  copy:     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=1312489217&single=true&output=csv"
 };
 
 /* ============================================================
@@ -578,7 +578,7 @@ function renderCopy(data){
   const map={}; data.forEach(d=>{ if(d.키) map[d.키.trim()]=d.내용||""; });
   document.querySelectorAll("[data-ck]").forEach(el=>{
     const v=map[el.dataset.ck];
-    if(v && v.trim()!=="") el.innerHTML=esc(v).replace(/\n/g,"<br>");
+    if(v && v.trim()!=="") el.innerHTML=esc(v.trim()).replace(/\s*\n\s*/g,"<br>");
   });
 }
 /* ---------- S1 티커 + S5 납품실적 ---------- */
