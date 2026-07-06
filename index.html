@@ -451,10 +451,10 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
    비워두면 아래 FALLBACK 데이터가 표시됨.
    ============================================================ */
 const SHEET = {
-  contacts: "",   // 탭① 담당자
-  records:  "",   // 탭② 납품실적
-  cases:    "",   // 탭③ 납품사례
-  links:    ""    // 탭④ 링크·폼
+  contacts: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=1095958129&single=true&output=csv",
+  records:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=888699591&single=true&output=csv",
+  cases:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=636813915&single=true&output=csv",
+  links:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=2012378176&single=true&output=csv"
 };
 
 /* ============================================================
@@ -602,7 +602,8 @@ function renderContacts(data){
   }
 }
 function renderLinks(data){
-  const find=n=>{const r=data.find(d=>(d.항목||"").indexOf(n)>-1);return r?r.URL:"";};
+  const clean=u=>((u||"").match(/(https?:\/\/\S+|tel:\S+|mailto:\S+)/)||[""])[0]; // 잡텍스트 제거
+  const find=n=>{const r=data.find(d=>(d.항목||"").indexOf(n)>-1);return r?clean(r.URL):"";};
   const quote=find("견적"), as=find("A/S")||find("AS"), tel=find("전화");
   if(tel) document.getElementById("heroCall").href=tel;
   document.getElementById("formRow").innerHTML=
