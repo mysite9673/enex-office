@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>에넥스 오피스 | 오피스 가구 토탈 솔루션</title>
 <meta name="description" content="책상 하나부터 사옥 전체까지. 계약부터 납품, A/S까지 — 오피스 가구 토탈 솔루션, 에넥스 오피스.">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 @font-face{font-family:"Paperlogy";src:url("fonts/Paperlogy-4Regular.woff2") format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"Paperlogy";src:url("fonts/Paperlogy-6SemiBold.woff2") format("woff2");font-weight:600;font-display:swap}
@@ -28,7 +26,7 @@
   --radius:14px;
   --maxw:1120px;
   --font-body:"Paperlogy",-apple-system,"Malgun Gothic",sans-serif;
-  --font-mono:"IBM Plex Mono",monospace;
+  --font-mono:"Paperlogy",sans-serif;  /* 라벨·숫자도 Paperlogy 통일 */
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -50,9 +48,7 @@ h2{font-size:clamp(26px,4.2vw,40px);font-weight:800;letter-spacing:-.02em;line-h
 
 /* PC: 슬라이드 스냅 */
 @media (min-width:1024px){
-  html{scroll-snap-type:y proximity}
-  section{scroll-snap-align:start;min-height:100vh;display:flex;align-items:center}
-  section>.wrap{width:100%}
+  section{padding:110px 24px}   /* 스냅 제거 — 일반 스크롤, 여백으로 리듬 유지 */
 }
 
 /* ---- 스크롤 리빌 ---- */
@@ -61,7 +57,6 @@ h2{font-size:clamp(26px,4.2vw,40px);font-weight:800;letter-spacing:-.02em;line-h
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .reveal{opacity:1;transform:none;transition:none}
-  .marquee-track{animation:none!important}
 }
 
 /* ============================================================
@@ -94,13 +89,6 @@ h2{font-size:clamp(26px,4.2vw,40px);font-weight:800;letter-spacing:-.02em;line-h
 .scroll-hint{position:relative;z-index:2;text-align:center;padding:0 0 20px;
   font-family:var(--font-mono);font-size:11px;letter-spacing:.25em;color:#9C8F86}
 
-/* 납품처 티커 (시그니처) */
-.marquee{background:var(--brick-deep);color:#F3DCDC;overflow:hidden;position:relative;z-index:2}
-.marquee-track{display:flex;width:max-content;animation:mq 38s linear infinite;
-  padding:13px 0;font-family:var(--font-mono);font-size:13px;letter-spacing:.06em}
-.marquee-track span{padding:0 26px;white-space:nowrap;position:relative}
-.marquee-track span::after{content:"·";position:absolute;right:-4px;opacity:.5}
-@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ============================================================
    S2. 회사 소개 (신뢰 지표)
@@ -253,6 +241,34 @@ h2{font-size:clamp(26px,4.2vw,40px);font-weight:800;letter-spacing:-.02em;line-h
 .form-btn span::after{content:"↗";margin-left:8px;font-weight:400}
 footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-align:center;
   font-family:var(--font-mono);letter-spacing:.04em}
+
+/* ---- 사례 팝업(라이트박스) ---- */
+.gitem{cursor:pointer;transition:transform .15s ease}
+.gitem:hover{transform:translateY(-3px)}
+.lb{position:fixed;inset:0;background:rgba(20,15,13,.9);z-index:99;display:none;
+  align-items:center;justify-content:center;padding:20px}
+.lb.on{display:flex}
+.lb-box{max-width:920px;width:100%}
+.lb-img{width:100%;max-height:72vh;object-fit:contain;border-radius:10px;background:#000}
+.lb-bar{display:flex;justify-content:space-between;align-items:center;color:#fff;margin-top:12px;gap:12px}
+.lb-bar h3{font-size:17px;font-weight:800}
+.lb-bar .cnt{font-family:var(--font-mono);font-size:12.5px;color:#CBBFB6}
+.lb-nav{display:flex;gap:8px}
+.lb-btn{background:rgba(255,255,255,.14);border:none;color:#fff;font-size:18px;width:42px;height:42px;
+  border-radius:999px;cursor:pointer;font-family:var(--font-body)}
+.lb-btn:hover{background:rgba(255,255,255,.28)}
+.lb-x{position:absolute;top:18px;right:20px;font-size:26px;background:none;border:none;color:#fff;cursor:pointer}
+@media print{.lb{display:none!important}}
+
+/* ---- 인쇄(PDF 저장) ---- */
+@media print{
+  section{min-height:auto;padding:40px 24px;page-break-after:always;page-break-inside:avoid}
+  .hero{min-height:auto;padding:60px 28px}
+  .hero-bg{opacity:.25}
+  .scroll-hint,.filters,.btn-ghost{display:none!important}
+  .reveal{opacity:1!important;transform:none!important}
+  a[href]::after{content:""}
+}
 </style>
 </head>
 <body>
@@ -266,22 +282,21 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
     <div class="hero-tag">SINCE 1971</div>
   </div>
   <div class="hero-body">
-    <h1>책상 하나부터<br>사옥 전체까지, <em>에넥스.</em></h1>
-    <p class="sub">계약부터 납품, A/S까지 — 오피스 가구 토탈 솔루션.<br>견적 문의만으로도 환영합니다.</p>
+    <h1 data-ck="커버_제목">책상 하나부터<br>사옥 전체까지, <em>에넥스.</em></h1>
+    <p class="sub" data-ck="커버_서브">계약부터 납품, A/S까지 — 오피스 가구 토탈 솔루션.<br>견적 문의만으로도 환영합니다.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" id="heroCall" href="tel:02-2185-2263">전화로 견적 문의</a>
       <a class="btn btn-ghost" href="#cases">납품사례 보기</a>
     </div>
   </div>
   <div class="scroll-hint">SCROLL ▾</div>
-  <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
 </header>
 
 <!-- ================= S2. 회사 소개 ================= -->
 <section id="about">
   <div class="wrap reveal">
     <div class="eyebrow">01 — WHO WE ARE</div>
-    <h2>55년 가구 제조 기업의<br>오피스 전담 조직입니다.</h2>
+    <h2 data-ck="회사_제목">55년 가구 제조 기업의<br>오피스 전담 조직입니다.</h2>
     <p class="lede">1971년 창립 이래 대한민국의 일하는 공간과 사는 공간에 가구를 공급해 왔습니다.
       에넥스 오피스는 사무 공간에 필요한 모든 가구를 견적부터 시공까지 책임집니다. 코스피 상장사로 재무 현황은 전자공시(DART)에 투명하게 공개되어 있습니다.</p>
     <div class="stats">
@@ -298,7 +313,7 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <section class="alt" id="infra">
   <div class="wrap reveal">
     <div class="eyebrow">02 — FACTORY &amp; LOGISTICS</div>
-    <h2>한 공장에서 만들고,<br>전국 7개 물류센터로 보냅니다.</h2>
+    <h2 data-ck="인프라_제목">한 공장에서 만들고,<br>전국 7개 물류센터로 보냅니다.</h2>
     <p class="lede">전품목을 충북 황간 단일공장에서 생산해 품질 기준이 하나로 관리되고,
       전국 물류망이 지방 현장까지의 납기를 줄입니다.</p>
     <div class="infra-photos">
@@ -326,7 +341,7 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <section id="business">
   <div class="wrap reveal">
     <div class="eyebrow">03 — WHAT WE DO</div>
-    <h2>필요한 가구는 전부,<br>단가와 시공까지 맞춥니다.</h2>
+    <h2 data-ck="사업_제목">필요한 가구는 전부,<br>단가와 시공까지 맞춥니다.</h2>
     <div class="cards3">
       <div class="card">
         <div class="no">A</div>
@@ -354,7 +369,7 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <section class="alt" id="process">
   <div class="wrap reveal">
     <div class="eyebrow">04 — HOW WE WORK</div>
-    <h2>문의부터 A/S까지,<br>담당자가 처음부터 끝까지.</h2>
+    <h2 data-ck="프로세스_제목">문의부터 A/S까지,<br>담당자가 처음부터 끝까지.</h2>
     <div class="steps">
       <div class="step"><div class="n">01</div><div><h3>문의</h3><p>전화 또는 견적 의뢰 폼으로 접수 — 도면이 없어도 됩니다.</p></div></div>
       <div class="step"><div class="n">02</div><div><h3>실측 · 기획</h3><p>현장 방문 실측 후 공간에 맞는 구성과 수량을 제안합니다.</p></div></div>
@@ -371,7 +386,7 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <section id="records">
   <div class="wrap reveal">
     <div class="eyebrow">05 — TRACK RECORD</div>
-    <h2>은행 본점부터 대학 강의실까지,<br>이미 납품해 봤습니다.</h2>
+    <h2 data-ck="실적_제목">은행 본점부터 대학 강의실까지,<br>이미 납품해 봤습니다.</h2>
     <p class="lede">기업 사옥, 금융기관, 공항 라운지, 학교와 기숙사, 아파트 커뮤니티 —
       공간의 성격이 달라도 납품과 시공의 기준은 같습니다.</p>
     <div class="record-grid" id="recordGrid"></div>
@@ -383,7 +398,7 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <section class="alt" id="cases">
   <div class="wrap reveal">
     <div class="eyebrow">06 — GALLERY</div>
-    <h2>말보다 사진이 빠릅니다.</h2>
+    <h2 data-ck="갤러리_제목">말보다 사진이 빠릅니다.</h2>
     <div class="filters" id="filters"></div>
     <div class="gallery" id="gallery"></div>
     <div class="gallery-empty" id="galleryEmpty">해당 카테고리의 사례가 준비 중입니다.</div>
@@ -394,7 +409,7 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <section id="products">
   <div class="wrap reveal">
     <div class="eyebrow">07 — LINE-UP</div>
-    <h2>가장 많이 나가는 구성.</h2>
+    <h2 data-ck="제품_제목">가장 많이 나가는 구성.</h2>
     <div class="prods">
       <div class="prod"><div class="type">DESK</div><h3>STAY 데스크</h3>
         <p>전선덕트 · 레벨러 내장, 배선이 깔끔한 기본 업무 데스크.</p>
@@ -409,7 +424,8 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
         <p>공구 없이 조립되는 패브릭 파티션, 메모보드·행거 옵션.</p>
         <div class="spec">전면 1200 / 측면 700</div></div>
     </div>
-    <a class="more-link" href="https://www.enex.co.kr/office/goods_list.php" target="_blank" rel="noopener">전 제품 카탈로그 보기</a>
+    <a class="more-link" href="https://www.enex.co.kr/office/goods_list.php" target="_blank" rel="noopener">전 제품 온라인 카탈로그</a>
+    <a class="more-link" id="catalogBtn" style="display:none;margin-left:22px" target="_blank" rel="noopener">카탈로그 PDF 보기 · 다운로드</a>
   </div>
 </section>
 
@@ -417,7 +433,7 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <section class="alt" id="quality">
   <div class="wrap reveal">
     <div class="eyebrow">08 — CERTIFIED</div>
-    <h2>인증으로 증명합니다.</h2>
+    <h2 data-ck="품질_제목">인증으로 증명합니다.</h2>
     <div class="badges">
       <div class="badge"><div class="code">ISO 9001</div><h3>품질경영시스템</h3><p>1996년 취득 · 한국표준협회</p></div>
       <div class="badge"><div class="code">ISO 14001</div><h3>환경경영시스템</h3><p>2015년 취득 · 한국표준협회</p></div>
@@ -432,12 +448,26 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <section class="contact" id="contact">
   <div class="wrap reveal">
     <div class="eyebrow">09 — CONTACT</div>
-    <h2>지금, 견적부터 받아보세요.</h2>
-    <p class="lede">전화 한 통이면 시작됩니다. 실측·시안·견적까지 무료입니다.</p>
+    <h2 data-ck="문의_제목">지금, 견적부터 받아보세요.</h2>
+    <p class="lede" data-ck="문의_서브">전화 한 통이면 시작됩니다. 실측·시안·견적까지 무료입니다.</p>
     <div class="contact-grid" id="contactGrid"></div>
     <div class="form-row" id="formRow"></div>
   </div>
 </section>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true">
+  <button class="lb-x" id="lbX" aria-label="닫기">✕</button>
+  <div class="lb-box">
+    <img class="lb-img" id="lbImg" alt="">
+    <div class="lb-bar">
+      <div><h3 id="lbTitle"></h3><div class="cnt" id="lbCnt"></div></div>
+      <div class="lb-nav">
+        <button class="lb-btn" id="lbPrev" aria-label="이전">‹</button>
+        <button class="lb-btn" id="lbNext" aria-label="다음">›</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer>
   ENEX CO., LTD — 서울특별시 서초구 서초대로 73길 40 · www.enex.co.kr<br>
@@ -454,7 +484,8 @@ const SHEET = {
   contacts: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=1095958129&single=true&output=csv",
   records:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=888699591&single=true&output=csv",
   cases:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=636813915&single=true&output=csv",
-  links:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=2012378176&single=true&output=csv"
+  links:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPzPtpXmxy88xqsKNpDqiY372xcr7CyqvJz9HWxX5VTV74BHtL6q2TkARKXI__UTKQO3OVZd1NUBTI/pub?gid=2012378176&single=true&output=csv",
+  copy:     ""   // 문구 탭 — 시트에 탭 생성·게시 후 주소 입력 (비면 내장 문구 사용)
 };
 
 /* ============================================================
@@ -462,6 +493,7 @@ const SHEET = {
    ⚠️ 표시는 확정 전 자리표시자 — 시트 연동 후에는 시트 값이 우선
    ============================================================ */
 const FALLBACK = {
+  copy: [],   // 문구는 HTML 내장 텍스트가 기본값
   contacts: [
     { 이름:"이종민", 직급:"대리", 내선번호:"02-0000-0000 ⚠️확인", 휴대폰:"010-2229-9673", 표시순서:"1" },
     { 이름:"김지민", 직급:"대리", 내선번호:"02-0000-0000 ⚠️확인", 휴대폰:"010-8358-2472", 표시순서:"2" }
@@ -540,12 +572,17 @@ async function load(key){
 }
 const byOrder=(a,b)=>(parseInt(a.표시순서)||999)-(parseInt(b.표시순서)||999);
 
+
+/* ---------- 문구 탭 적용 (키가 있는 것만 덮어씀) ---------- */
+function renderCopy(data){
+  const map={}; data.forEach(d=>{ if(d.키) map[d.키.trim()]=d.내용||""; });
+  document.querySelectorAll("[data-ck]").forEach(el=>{
+    const v=map[el.dataset.ck];
+    if(v && v.trim()!=="") el.innerHTML=esc(v).replace(/\n/g,"<br>");
+  });
+}
 /* ---------- S1 티커 + S5 납품실적 ---------- */
 function renderRecords(data){
-  // 티커: 표기명 이어붙여 2회 반복(무한 루프용)
-  const names=data.sort(byOrder).map(d=>d.표기명);
-  const mq=document.getElementById("marquee");
-  mq.innerHTML=names.concat(names).map(n=>`<span>${esc(n)}</span>`).join("");
   // 카테고리 그룹
   const cats={};
   data.forEach(d=>{ const c=d.카테고리||"기타"; (cats[c]=cats[c]||[]).push(d); });
@@ -573,14 +610,46 @@ function renderGallery(cat){
   document.getElementById("galleryEmpty").style.display=list.length?"none":"block";
   g.innerHTML=list.sort(byOrder).map(c=>{
     const img=(c.사진파일명||"").trim();
-    const ph=img
-      ? `<div class="ph" style="background-image:url('images/${escAttr(img)}')"></div>`
+    const src=img? (/^https?:\/\//.test(img)? img : "images/"+img) : "";   // URL 직접 입력 지원
+    const ph=src
+      ? `<div class="ph" style="background-image:url('${escAttr(src)}')"></div>`
       : `<div class="ph"><span class="noimg">PHOTO 준비중</span></div>`;
-    return `<article class="gitem">${ph}
+    return `<article class="gitem" data-idx="${CASES.indexOf(c)}">${ph}
       <div class="meta"><div class="cat">${esc(c.카테고리||"")}</div>
       <h3>${esc(c.제목||"")}</h3><p>${esc(c.한줄설명||"")}</p></div></article>`;
   }).join("");
+  g.querySelectorAll(".gitem").forEach(el=>el.addEventListener("click",()=>openLB(+el.dataset.idx)));
 }
+
+/* ---------- 사례 팝업: 메인사진 + '추가사진' 열(쉼표 구분) ---------- */
+let LB={imgs:[],i:0,title:""};
+const toSrc=f=>/^https?:\/\//.test(f)? f : "images/"+f;
+function openLB(idx){
+  const c=CASES[idx]; if(!c) return;
+  const extra=(c.추가사진||"").split(",").map(s=>s.trim()).filter(Boolean);
+  LB.imgs=[c.사진파일명,...extra].filter(Boolean).map(toSrc);
+  if(!LB.imgs.length) return;
+  LB.i=0; LB.title=c.제목||"";
+  drawLB(); document.getElementById("lb").classList.add("on");
+  document.body.style.overflow="hidden";
+}
+function drawLB(){
+  document.getElementById("lbImg").src=LB.imgs[LB.i];
+  document.getElementById("lbImg").alt=LB.title;
+  document.getElementById("lbTitle").textContent=LB.title;
+  document.getElementById("lbCnt").textContent=(LB.i+1)+" / "+LB.imgs.length;
+}
+function closeLB(){document.getElementById("lb").classList.remove("on");document.body.style.overflow="";}
+document.getElementById("lbX").addEventListener("click",closeLB);
+document.getElementById("lb").addEventListener("click",e=>{if(e.target.id==="lb")closeLB();});
+document.getElementById("lbPrev").addEventListener("click",()=>{LB.i=(LB.i-1+LB.imgs.length)%LB.imgs.length;drawLB();});
+document.getElementById("lbNext").addEventListener("click",()=>{LB.i=(LB.i+1)%LB.imgs.length;drawLB();});
+document.addEventListener("keydown",e=>{
+  if(!document.getElementById("lb").classList.contains("on"))return;
+  if(e.key==="Escape")closeLB();
+  if(e.key==="ArrowLeft"){LB.i=(LB.i-1+LB.imgs.length)%LB.imgs.length;drawLB();}
+  if(e.key==="ArrowRight"){LB.i=(LB.i+1)%LB.imgs.length;drawLB();}
+});
 
 /* ---------- S9 담당자 + 폼 링크 ---------- */
 function renderContacts(data){
@@ -604,8 +673,9 @@ function renderContacts(data){
 function renderLinks(data){
   const clean=u=>((u||"").match(/(https?:\/\/\S+|tel:\S+|mailto:\S+)/)||[""])[0]; // 잡텍스트 제거
   const find=n=>{const r=data.find(d=>(d.항목||"").indexOf(n)>-1);return r?clean(r.URL):"";};
-  const quote=find("견적"), as=find("A/S")||find("AS"), tel=find("전화");
+  const quote=find("견적"), as=find("A/S")||find("AS"), tel=find("전화"), cat=find("카탈로그");
   if(tel) document.getElementById("heroCall").href=tel;
+  if(cat){const b=document.getElementById("catalogBtn");b.href=cat;b.style.display="inline-flex";}
   document.getElementById("formRow").innerHTML=
     (quote?`<a class="form-btn" href="${escAttr(quote)}" target="_blank" rel="noopener"><span>가구 견적 의뢰</span></a>`:"")+
     (as?`<a class="form-btn" href="${escAttr(as)}" target="_blank" rel="noopener"><span>A/S 접수</span></a>`:"");
@@ -621,8 +691,9 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
 (async function init(){
-  const [contacts,records,cases,links]=await Promise.all(
-    ["contacts","records","cases","links"].map(load));
+  const [contacts,records,cases,links,copy]=await Promise.all(
+    ["contacts","records","cases","links","copy"].map(load));
+  renderCopy(copy);
   renderRecords(records);
   CASES=cases.filter(c=>(c.노출||"Y").toUpperCase()!=="N");
   renderFilters(); renderGallery("전체");
