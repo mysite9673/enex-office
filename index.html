@@ -675,13 +675,20 @@ function renderLinks(data){
   const clean=u=>((u||"").match(/(https?:\/\/\S+|tel:\S+|mailto:\S+)/)||[""])[0]; // 잡텍스트 제거
   const find=n=>{const r=data.find(d=>(d.항목||"").indexOf(n)>-1);return r?clean(r.URL):"";};
   const quote=find("견적"), as=find("A/S")||find("AS"), tel=find("전화"), cat=find("카탈로그");
-  if(tel) document.getElementById("heroCall").href=tel;
-  if(cat){const b=document.getElementById("catalogBtn");b.href=cat;b.style.display="inline-flex";}
-  document.getElementById("formRow").innerHTML=
-    (quote?`<a class="form-btn" href="${escAttr(quote)}" target="_blank" rel="noopener"><span>가구 견적 의뢰</span></a>`:"")+
-    (as?`<a class="form-btn" href="${escAttr(as)}" target="_blank" rel="noopener"><span>A/S 접수</span></a>`:"");
+  
+  if(tel && document.getElementById("heroCall")) document.getElementById("heroCall").href=tel;
+  
+  // 573, 574행의 구글 시트 링크 데이터를 받아 버튼 2개를 화면에 강제로 띄우는 구간
+  const formRow = document.getElementById("formRow");
+  if(formRow) {
+    formRow.innerHTML =
+      (quote ? `<a class="form-btn" href="${quote}" target="_blank" rel="noopener"><span>가구 견적 의뢰</span></a>` : "") +
+      (as ? `<a class="form-btn" href="${as}" target="_blank" rel="noopener"><span>A/S 접수</span></a>` : "");
+  }
 }
 
+// 혹시 아래쪽에 escAttr 함수가 없어서 에러가 나는 것을 방지하기 위한 안전장치 추가
+function escAttr(str) { return str ? String(str).replace(/"/g, "&quot;") : ""; }
 /* ---------- 유틸 · 초기화 ---------- */
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function escAttr(s){return esc(s).replace(/`/g,"");}
