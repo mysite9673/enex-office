@@ -659,7 +659,7 @@ function renderContacts(data){
     if(p.내선번호) lines.push(line("내선",p.내선번호));
     if(p.휴대폰)  lines.push(line("휴대폰",p.휴대폰));
     if(p.이메일)  lines.push(`<a href="mailto:${escAttr(p.이메일)}"><span class="k">메일</span><span>${esc(p.이메일)}</span></a>`);
-    return `<div class="person"><div class="role">제안 · 견적 담당</div>
+    return `<div class="role">${esc(p.역할||"제안 · 견적 담당")}</div>
       <h3>${esc(p.이름)} <small>${esc(p.직급||"")}</small></h3>
       <div class="lines">${lines.join("")}</div></div>`;
   }).join("");
