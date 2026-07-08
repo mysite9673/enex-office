@@ -339,44 +339,39 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
   display: block;
 }
 
-/* ---- 2. 우측 하단 푸터 배너 스타일 (첫 페이지만 고정, 스크롤 시 사라짐) ---- */
+/* ---- 2. 우측 하단 푸터 배너 스타일 (모바일 제외, PC에서만 노출) ---- */
 .hero-footer {
-  position: absolute !important; /* fixed에서 absolute로 변경하여 첫 페이지에만 고정 */
-  right: 16px !important;
+  position: absolute !important;
+  right: 28px !important;
   left: auto !important;
-  top: 30px !important;
+  bottom: 24px !important;
   z-index: 5 !important;
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 13px;              /* PC 기준 폰트 크기 고정 */
   line-height: 1.6;
-  letter-spacing: .02em;
-  color: rgba(255, 255, 255, 0.4) !important; /* SCROLL 글씨와 동일한 밝기 감도 */
+  letter-spacing: .04em;
+  color: rgba(255, 255, 255, 0.4) !important; /* SCROLL 글씨와 동일한 감도 */
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   text-align: right !important;
+  
+  display: none;                /* 💡 [핵심] 기본값(모바일)에서는 배너를 완전히 숨김 */
 }
 
 .hero-foot-link {
-  color: rgba(255, 255, 255, 0.4) !important;
+  color: rgba(255, 255, 255, 0.65) !important;
   text-decoration: underline;
 }
 
-.m-only { display: inline; }
-
-/* 💻 PC 화면 대응 */
+/* 💻 PC 화면 대응 (가로폭 1024px 이상일 때만 강제 노출) */
 @media (min-width: 1024px) {
   .hero-footer {
-    right: 28px !important;
-    bottom: 24px !important;
-    font-size: 13px;
-    letter-spacing: .04em;
+    display: block !important;  /* 💡 PC 화면에서만 다시 깔끔하게 노출 */
   }
-  .m-only { display: none; }
-  .hero-qr { width: 80px; padding: 8px; } /* PC에서는 QR 크기 최적화 */
 }
 
 /* 🖨️ 인쇄 시 제외 */
 @media print {
-  .hero-footer, .hero-qr { display: none !important; }
+  .hero-footer { display: none !important; }
 }
 }
    
