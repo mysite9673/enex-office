@@ -317,7 +317,7 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
     print-color-adjust: exact !important;
   }
 }
-   /* ---- 1. 좌측 상단 QR코드 스타일 ---- */
+/* ---- 1. 좌측 상단 QR코드 깔끔한 버전 (문구/회색 배경 제거) ---- */
 .logo-group {
   display: flex;
   flex-direction: column;
@@ -325,46 +325,38 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
   gap: 8px;
 }
 .hero-qr {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.9); /* QR이 잘 찍히도록 흰색 배경 살짝 깔기 */
+  display: block;
+  background: #ffffff !important; /* 오직 QR 인식을 위한 순수 흰색 바탕만 남김 */
   padding: 6px;
-  border-radius: 6px;
+  border-radius: 4px;
   margin-top: 4px;
-  width: 74px; /* 적당한 QR 노출 크기 */
+  width: 64px; /* 모바일 크기 가볍게 조정 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 .hero-qr img {
   width: 100%;
   height: auto;
   display: block;
 }
-.hero-qr span {
-  font-size: 7px;
-  color: #333;
-  font-weight: bold;
-  letter-spacing: -0.05em;
-}
 
-/* ---- 2. 우측 하단 푸터 배너 스타일 (완전 우측 강제 고정 버전) ---- */
+/* ---- 2. 우측 하단 푸터 배너 스타일 (첫 페이지만 고정, 스크롤 시 사라짐) ---- */
 .hero-footer {
-  position: fixed !important; /* 부모 flex 정렬을 무시하고 브라우저 화면 우측 구석에 박아버림 */
+  position: absolute !important; /* fixed에서 absolute로 변경하여 첫 페이지에만 고정 */
   right: 16px !important;
   left: auto !important;
   bottom: 65px !important;
-  z-index: 99 !important;     /* 최상위 레이어 확보 */
+  z-index: 5 !important;
   font-family: var(--font-mono);
   font-size: 8px;
   line-height: 1.6;
   letter-spacing: .02em;
-  color: #ffffff !important;   /* SCROLL 글씨 이상으로 선명하게 흰색 고정 */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.6); /* 글씨 뒤에 그림자를 주어 어떤 배경에서도 잘 보이게 처리 */
+  color: rgba(255, 255, 255, 0.6) !important; /* SCROLL 글씨와 동일한 밝기 감도 */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   text-align: right !important;
 }
 
 .hero-foot-link {
-  color: #ffffff !important;
+  color: rgba(255, 255, 255, 0.65) !important;
   text-decoration: underline;
 }
 
@@ -379,11 +371,10 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
     letter-spacing: .04em;
   }
   .m-only { display: none; }
-  .hero-qr { width: 90px; padding: 8px; } /* PC에서는 QR코드 살짝 더 크게 */
-  .hero-qr span { font-size: 8px; }
+  .hero-qr { width: 80px; padding: 8px; } /* PC에서는 QR 크기 최적화 */
 }
 
-/* 🖨️ 인쇄 시에는 QR과 첫 페이지 푸터 모두 숨김 */
+/* 🖨️ 인쇄 시 제외 */
 @media print {
   .hero-footer, .hero-qr { display: none !important; }
 }
@@ -402,10 +393,9 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
     <div class="logo-group">
       <div class="logo"><b>E</b>ENEX OFFICE</div>
       <div class="hero-tag">SINCE 1971</div>
-      <!-- 추가된 QR코드 박스 -->
+      <!-- QR코드만 딱 깔끔하게 노출 -->
       <div class="hero-qr">
         <img src="images/qr_code.png" alt="에넥스오피스 QR">
-        <span>스캔하여 페이지 공유</span>
       </div>
     </div>
   </div>
@@ -419,8 +409,8 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
     </div>
   </div>
    
-  <!-- 💡 모바일/PC 겸용 첫 페이지 우측 하단 배너 -->
-<div class="hero-footer">
+<!-- 💡 우측 하단 배너 -->
+  <div class="hero-footer">
     ENEX CO., LTD <br class="m-only"> — 서울 서초구 서초대로 73길 40<br>
     <a href="https://www.enex.co.kr" target="_blank" rel="noopener" class="hero-foot-link">www.enex.co.kr</a><br class="m-only">
     <span class="copy">© ENEX OFFICE. All rights reserved.</span>
