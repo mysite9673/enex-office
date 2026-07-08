@@ -317,6 +317,52 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
     print-color-adjust: exact !important;
   }
 }
+   /* ---- 모바일 및 PC 공용 첫 페이지 푸터 스타일 ---- */
+.hero-footer {
+  position: absolute;
+  right: 16px;       /* 모바일 여백 좁게 조정 */
+  bottom: 60px;      /* 하단 SCROLL 힌트(보통 bottom: 20px 내외)와 겹치지 않도록 위로 올림 */
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 10px;    /* 모바일 가독성을 위해 자소 크기 축소 */
+  line-height: 1.6;
+  letter-spacing: .02em;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: right;
+  pointer-events: none; /* 클릭 방해 금지 */
+}
+
+/* 링크 영역 스타일 (모바일 터치 대응) */
+.hero-foot-link {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  pointer-events: auto; /* 링크는 클릭 가능하도록 */
+}
+
+/* 기본적으로 모바일 전용 줄바꿈 활성화 */
+.m-only {
+  display: inline;
+}
+
+/* 💻 PC 화면 (가로폭 1024px 이상)에서의 레이아웃 리셋 */
+@media (min-width: 1024px) {
+  .hero-footer {
+    right: 28px;
+    bottom: 24px;   /* PC에서는 스크롤 힌트가 우측이 아닌 중앙에 있으므로 아래로 내림 */
+    font-size: 11px;
+    letter-spacing: .04em;
+  }
+  .m-only {
+    display: none;  /* PC에서는 모바일용 줄바꿈 제거하여 한 줄로 표기 */
+  }
+}
+
+/* 🖨️ 인쇄(PDF 저장) 시에는 불필요하므로 숨김 유지 */
+@media print {
+  .hero-footer {
+    display: none !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -337,6 +383,14 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
       <a class="btn btn-ghost" href="#cases">납품 사례 보기</a>
     </div>
   </div>
+   
+  <!-- 💡 모바일/PC 겸용 첫 페이지 우측 하단 배너 -->
+  <div class="hero-footer">
+    ENEX CO., LTD <br class="m-only"> — 서울 서초구 서초대로 73길 40<br>
+    <a href="https://www.enex.co.kr" target="_blank" rel="noopener" class="hero-foot-link">www.enex.co.kr</a><br class="m-only">
+    <span class="copy">© ENEX OFFICE. All rights reserved.</span>
+  </div>
+   
   <div class="scroll-hint">SCROLL ▾</div>
 </header>
 
