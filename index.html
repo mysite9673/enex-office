@@ -317,53 +317,76 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
     print-color-adjust: exact !important;
   }
 }
-/* ---- [수정본] 첫 페이지 푸터 스타일 ---- */
+   /* ---- 1. 좌측 상단 QR코드 스타일 ---- */
+.logo-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.hero-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.9); /* QR이 잘 찍히도록 흰색 배경 살짝 깔기 */
+  padding: 6px;
+  border-radius: 6px;
+  margin-top: 4px;
+  width: 74px; /* 적당한 QR 노출 크기 */
+}
+.hero-qr img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.hero-qr span {
+  font-size: 7px;
+  color: #333;
+  font-weight: bold;
+  letter-spacing: -0.05em;
+}
+
+/* ---- 2. 우측 하단 푸터 배너 스타일 (완전 우측 강제 고정 버전) ---- */
 .hero-footer {
-  position: absolute;
-  right: 16px !important;    /* 1. 모바일/PC 모두 강제로 우측 정렬 고정 */
-  left: auto !important;     /* 좌측 정렬 성향 원천 차단 */
-  bottom: 65px;              /* 스크롤 힌트와 겹치지 않도록 위로 올림 */
-  z-index: 5;                /* 다른 요소에 가려지지 않게 레이어 최상단 배치 */
+  position: fixed !important; /* 부모 flex 정렬을 무시하고 브라우저 화면 우측 구석에 박아버림 */
+  right: 16px !important;
+  left: auto !important;
+  bottom: 65px !important;
+  z-index: 99 !important;     /* 최상위 레이어 확보 */
   font-family: var(--font-mono);
-  font-size: 8px;            /* 2. 모바일은 기존 10px에서 2포인트 줄임 */
+  font-size: 8px;
   line-height: 1.6;
   letter-spacing: .02em;
-  color: rgba(255, 255, 255, 0.75) !important; /* 3. 배경 대비 시인성 확보 (더 밝게 수정) */
-  text-align: right !important; /* 텍스트 정렬 우측 고정 */
-  pointer-events: none;
+  color: #ffffff !important;   /* SCROLL 글씨 이상으로 선명하게 흰색 고정 */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6); /* 글씨 뒤에 그림자를 주어 어떤 배경에서도 잘 보이게 처리 */
+  text-align: right !important;
 }
 
-/* 링크 영역 스타일 (터치 대응 및 색상 매칭) */
 .hero-foot-link {
-  color: rgba(255, 255, 255, 0.85) !important;
-  text-decoration: underline; /* 링크임을 인지할 수 있도록 밑줄 추가 */
-  pointer-events: auto;
+  color: #ffffff !important;
+  text-decoration: underline;
 }
 
-/* 모바일 전용 줄바꿈 */
-.m-only {
-  display: inline;
-}
+.m-only { display: inline; }
 
-/* 💻 PC 화면 (가로폭 1024px 이상) 레이아웃 조정 */
+/* 💻 PC 화면 대응 */
 @media (min-width: 1024px) {
   .hero-footer {
     right: 28px !important;
-    left: auto !important;
-    bottom: 24px;            /* PC에서는 하단 여백 정상화 */
-    font-size: 13px;         /* 2. PC는 기존 11px에서 2포인트 키움 */
+    bottom: 24px !important;
+    font-size: 13px;
     letter-spacing: .04em;
   }
-  .m-only {
-    display: none;           /* PC에서는 한 줄로 길게 표기 */
-  }
+  .m-only { display: none; }
+  .hero-qr { width: 90px; padding: 8px; } /* PC에서는 QR코드 살짝 더 크게 */
+  .hero-qr span { font-size: 8px; }
 }
 
-/* 🖨️ 인쇄(PDF 저장) 시 제외 */
+/* 🖨️ 인쇄 시에는 QR과 첫 페이지 푸터 모두 숨김 */
 @media print {
-  .hero-footer {
-    display: none !important;
-  }
+  .hero-footer, .hero-qr { display: none !important; }
+}
 }
    
 </style>
@@ -374,9 +397,18 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 <header class="hero" id="top">
   <div class="hero-bg" role="img" aria-label="에넥스 오피스 시공 사례"></div>
   <div class="hero-shade"></div>
+<!-- 💡 로고 및 QR코드 영역 수정 -->
   <div class="hero-top">
-    <div class="logo"><b>E</b>ENEX OFFICE</div>
-    <div class="hero-tag">SINCE 1971</div>
+    <div class="logo-group">
+      <div class="logo"><b>E</b>ENEX OFFICE</div>
+      <div class="hero-tag">SINCE 1971</div>
+      <!-- 추가된 QR코드 박스 -->
+      <div class="hero-qr">
+        <img src="images/qr_code.png" alt="에넥스오피스 QR">
+        <span>스캔하여 페이지 공유</span>
+      </div>
+    </div>
+  </div>
   </div>
   <div class="hero-body">
     <h1 data-ck="커버_제목">의자 하나부터<br>사옥 전체까지, <em>에넥스.</em></h1>
@@ -388,12 +420,12 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
   </div>
    
   <!-- 💡 모바일/PC 겸용 첫 페이지 우측 하단 배너 -->
-  <div class="hero-footer">
+<div class="hero-footer">
     ENEX CO., LTD <br class="m-only"> — 서울 서초구 서초대로 73길 40<br>
     <a href="https://www.enex.co.kr" target="_blank" rel="noopener" class="hero-foot-link">www.enex.co.kr</a><br class="m-only">
     <span class="copy">© ENEX OFFICE. All rights reserved.</span>
   </div>
-   
+
   <div class="scroll-hint">SCROLL ▾</div>
 </header>
 
