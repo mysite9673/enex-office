@@ -317,52 +317,55 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
     print-color-adjust: exact !important;
   }
 }
-   /* ---- 모바일 및 PC 공용 첫 페이지 푸터 스타일 ---- */
+/* ---- [수정본] 첫 페이지 푸터 스타일 ---- */
 .hero-footer {
   position: absolute;
-  right: 16px;       /* 모바일 여백 좁게 조정 */
-  bottom: 60px;      /* 하단 SCROLL 힌트(보통 bottom: 20px 내외)와 겹치지 않도록 위로 올림 */
-  z-index: 2;
+  right: 16px !important;    /* 1. 모바일/PC 모두 강제로 우측 정렬 고정 */
+  left: auto !important;     /* 좌측 정렬 성향 원천 차단 */
+  bottom: 65px;              /* 스크롤 힌트와 겹치지 않도록 위로 올림 */
+  z-index: 5;                /* 다른 요소에 가려지지 않게 레이어 최상단 배치 */
   font-family: var(--font-mono);
-  font-size: 10px;    /* 모바일 가독성을 위해 자소 크기 축소 */
+  font-size: 8px;            /* 2. 모바일은 기존 10px에서 2포인트 줄임 */
   line-height: 1.6;
   letter-spacing: .02em;
-  color: rgba(255, 255, 255, 0.45);
-  text-align: right;
-  pointer-events: none; /* 클릭 방해 금지 */
+  color: rgba(255, 255, 255, 0.75) !important; /* 3. 배경 대비 시인성 확보 (더 밝게 수정) */
+  text-align: right !important; /* 텍스트 정렬 우측 고정 */
+  pointer-events: none;
 }
 
-/* 링크 영역 스타일 (모바일 터치 대응) */
+/* 링크 영역 스타일 (터치 대응 및 색상 매칭) */
 .hero-foot-link {
-  color: rgba(255, 255, 255, 0.5);
-  text-decoration: none;
-  pointer-events: auto; /* 링크는 클릭 가능하도록 */
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-decoration: underline; /* 링크임을 인지할 수 있도록 밑줄 추가 */
+  pointer-events: auto;
 }
 
-/* 기본적으로 모바일 전용 줄바꿈 활성화 */
+/* 모바일 전용 줄바꿈 */
 .m-only {
   display: inline;
 }
 
-/* 💻 PC 화면 (가로폭 1024px 이상)에서의 레이아웃 리셋 */
+/* 💻 PC 화면 (가로폭 1024px 이상) 레이아웃 조정 */
 @media (min-width: 1024px) {
   .hero-footer {
-    right: 28px;
-    bottom: 24px;   /* PC에서는 스크롤 힌트가 우측이 아닌 중앙에 있으므로 아래로 내림 */
-    font-size: 11px;
+    right: 28px !important;
+    left: auto !important;
+    bottom: 24px;            /* PC에서는 하단 여백 정상화 */
+    font-size: 13px;         /* 2. PC는 기존 11px에서 2포인트 키움 */
     letter-spacing: .04em;
   }
   .m-only {
-    display: none;  /* PC에서는 모바일용 줄바꿈 제거하여 한 줄로 표기 */
+    display: none;           /* PC에서는 한 줄로 길게 표기 */
   }
 }
 
-/* 🖨️ 인쇄(PDF 저장) 시에는 불필요하므로 숨김 유지 */
+/* 🖨️ 인쇄(PDF 저장) 시 제외 */
 @media print {
   .hero-footer {
     display: none !important;
   }
 }
+   
 </style>
 </head>
 <body>
