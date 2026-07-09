@@ -55,6 +55,8 @@ h2{font-size:clamp(26px,4.2vw,40px);font-weight:800;letter-spacing:-.02em;line-h
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
 .reveal.on{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
+  .hero-bg{animation:none}
+  .reveal :is(.stat,.card,.step,.merit,.prod,.badge){opacity:1;transform:none;transition:none}
   html{scroll-behavior:auto}
   .reveal{opacity:1;transform:none;transition:none}
 }
@@ -381,6 +383,29 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
 }
 }
    
+
+/* ============ 동적 요소 v4 ============ */
+/* ④ 커버 슬로우 줌 */
+@keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+.hero-bg{animation:heroZoom 22s ease-out forwards}
+/* ② 카드류 순차 등장 */
+.reveal :is(.stat,.card,.step,.merit,.prod,.badge){opacity:0;transform:translateY(14px);
+  transition:opacity .55s ease,transform .55s ease}
+.reveal.on :is(.stat,.card,.step,.merit,.prod,.badge){opacity:1;transform:none}
+.reveal.on :is(.stat,.card,.step,.merit,.prod,.badge):nth-child(1){transition-delay:.05s}
+.reveal.on :is(.stat,.card,.step,.merit,.prod,.badge):nth-child(2){transition-delay:.15s}
+.reveal.on :is(.stat,.card,.step,.merit,.prod,.badge):nth-child(3){transition-delay:.25s}
+.reveal.on :is(.stat,.card,.step,.merit,.prod,.badge):nth-child(4){transition-delay:.35s}
+.reveal.on :is(.stat,.card,.step,.merit,.prod,.badge):nth-child(5){transition-delay:.45s}
+.reveal.on :is(.stat,.card,.step,.merit,.prod,.badge):nth-child(6){transition-delay:.55s}
+/* ③ 모바일 하단 고정 전화바 */
+.callbar{position:fixed;left:16px;right:16px;bottom:14px;z-index:60;display:none;
+  align-items:center;justify-content:center;gap:8px;background:var(--brick);color:#fff;
+  font-weight:800;font-size:15.5px;padding:15px;border-radius:999px;
+  box-shadow:0 8px 24px rgba(126,38,44,.42)}
+.callbar.show{display:flex}
+@media (min-width:761px){.callbar{display:none!important}}
+@media print{.callbar{display:none!important}}
 </style>
 </head>
 <body>
@@ -617,6 +642,8 @@ footer{background:#181210;color:#8B7F77;padding:26px 24px;font-size:12.5px;text-
   </div>
 </section>
 
+<a class="callbar" id="callBar" href="tel:02-2185-2263">전화로 견적 문의 &nbsp;›</a>
+
 <div class="lb" id="lb" role="dialog" aria-modal="true">
   <button class="lb-x" id="lbX" aria-label="닫기">✕</button>
   <div class="lb-box">
@@ -818,8 +845,9 @@ function renderContacts(data){
   document.getElementById("contactGrid").innerHTML=data.sort(byOrder).map(p=>{
     const lines=[];
     if(p.내선번호) lines.push(line("내선",p.내선번호));
-    if(p.휴대폰)  lines.push(line("휴대폰",p.휴대폰));
-    if(p.이메일)  lines.push(`<a href="mailto:${escAttr(p.이메일)}"><span class="k">메일</span><span>${esc(p.이메일)}</span></a>`);
+    const hp=p.휴대폰||p["휴대폰(선택)"], em=p.이메일||p["이메일(선택)"];  // 헤더 두 표기 모두 인식
+    if(hp) lines.push(line("휴대폰",hp));
+    if(em) lines.push(`<a href="mailto:${escAttr(em)}"><span class="k">메일</span><span>${esc(em)}</span></a>`);
     return `<div class="person"><div class="role">${esc(p.역할||"제안 · 견적 담당")}</div>
       <h3>${esc(p.이름)} <small>${esc(p.직급||"")}</small></h3>
       <div class="lines">${lines.join("")}</div></div>`;
@@ -838,6 +866,7 @@ function renderLinks(data){
   const quote=find("견적"), as=find("A/S")||find("AS"), tel=find("전화"), cat=find("카탈로그");
   
   if(tel && document.getElementById("heroCall")) document.getElementById("heroCall").href=tel;
+  if(tel && document.getElementById("callBar")) document.getElementById("callBar").href=tel;
   
   // 573, 574행의 구글 시트 링크 데이터를 받아 버튼 2개를 화면에 강제로 띄우는 구간
   const formRow = document.getElementById("formRow");
@@ -848,14 +877,32 @@ function renderLinks(data){
   }
 }
 
-// 혹시 아래쪽에 escAttr 함수가 없어서 에러가 나는 것을 방지하기 위한 안전장치 추가
-function escAttr(str) { return str ? String(str).replace(/"/g, "&quot;") : ""; }
+
 /* ---------- 유틸 · 초기화 ---------- */
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function escAttr(s){return esc(s).replace(/`/g,"");}
 
+
+/* ---------- 동적 v4: 숫자 카운트업 + 하단 전화바 ---------- */
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function countUp(el){
+  const node=el.childNodes[0];
+  const n=parseInt(String(node&&node.nodeValue||"").replace(/[^0-9]/g,""),10);
+  if(!n||n<10||REDUCED) return;
+  const dur=1200,t0=performance.now();
+  node.nodeValue="0";
+  (function tick(t){
+    const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);
+    node.nodeValue=String(Math.round(n*e));
+    if(p<1)requestAnimationFrame(tick);
+  })(t0);
+}
+const _cb=document.getElementById("callBar");
+addEventListener("scroll",()=>{_cb.classList.toggle("show",scrollY>innerHeight*0.8)},{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target);}
+  if(e.isIntersecting){e.target.classList.add("on");
+    e.target.querySelectorAll(".stat .num").forEach(countUp);
+    io.unobserve(e.target);}
 }),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
